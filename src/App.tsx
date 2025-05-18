@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Content from './components/Content/Content';
 import SmoothScroll from './components/SmoothScroll/SmoothScroll';

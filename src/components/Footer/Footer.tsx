@@ -8,7 +8,6 @@ import {
   Link as MuiLink,
   InputBase,
   styled,
-  Grid
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -23,8 +22,10 @@ const CustomInput = styled(InputBase)(({ theme }) => ({
     backgroundColor: '#f5f5f5',
     color: '#333',
     fontSize: 16,
-    padding: '12px 15px',
-    height: '24px',
+    padding: '8px 15px',
+    height: '20px',
+    width: '100%',
+    lineHeight: '20px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
     '&:focus': {
       borderColor: '#0052CC',
@@ -34,6 +35,9 @@ const CustomInput = styled(InputBase)(({ theme }) => ({
       color: '#666',
     },
   },
+  height: '36px',
+  display: 'flex',
+  alignItems: 'center',
 }));
 
 const Footer: React.FC = () => {
@@ -158,8 +162,12 @@ const Footer: React.FC = () => {
         </Box>
         
         {/* 导航链接区域 */}
-        <Grid container spacing={4} sx={{ mb: 6 }}>
-          <Grid item xs={12} sm={6} md={3}>
+        <Box sx={{ 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          mb: 6
+        }}>
+          <Box sx={{ width: { xs: '100%', sm: '50%', md: '25%' }, p: 2 }}>
             <Typography variant="subtitle1" sx={{ 
               fontWeight: 600, 
               mb: 3,
@@ -204,9 +212,9 @@ const Footer: React.FC = () => {
                 Cash Flow Tools
               </MuiLink>
             </Box>
-          </Grid>
+          </Box>
           
-          <Grid item xs={12} sm={6} md={3}>
+          <Box sx={{ width: { xs: '100%', sm: '50%', md: '25%' }, p: 2 }}>
             <Typography variant="subtitle1" sx={{ 
               fontWeight: 600, 
               mb: 3,
@@ -251,9 +259,9 @@ const Footer: React.FC = () => {
                 Blog
               </MuiLink>
             </Box>
-          </Grid>
+          </Box>
           
-          <Grid item xs={12} sm={6} md={3}>
+          <Box sx={{ width: { xs: '100%', sm: '50%', md: '25%' }, p: 2 }}>
             <Typography variant="subtitle1" sx={{ 
               fontWeight: 600, 
               mb: 3,
@@ -298,9 +306,9 @@ const Footer: React.FC = () => {
                 Contact Us
               </MuiLink>
             </Box>
-          </Grid>
+          </Box>
           
-          <Grid item xs={12} sm={6} md={3}>
+          <Box sx={{ width: { xs: '100%', sm: '50%', md: '25%' }, p: 2 }}>
             <Typography variant="subtitle1" sx={{ 
               fontWeight: 600, 
               mb: 3,
@@ -319,12 +327,16 @@ const Footer: React.FC = () => {
             <Box component="form" onSubmit={handleSubmit} sx={{ 
               display: 'flex',
               width: '100%',
+              maxWidth: { xs: '100%', sm: '280px' },
+              alignItems: 'center',
+              height: '36px',
             }}>
               <CustomInput
                 placeholder="Your email"
                 fullWidth
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                sx={{ flex: 1 }}
               />
               <Button
                 type="submit"
@@ -332,7 +344,8 @@ const Footer: React.FC = () => {
                   bgcolor: '#00C389',
                   color: 'white',
                   px: 2,
-                  py: 1,
+                  py: 0.5,
+                  height: '36px',
                   borderRadius: '0 4px 4px 0',
                   fontWeight: 500,
                   textTransform: 'none',
@@ -345,8 +358,8 @@ const Footer: React.FC = () => {
                 Subscribe
               </Button>
             </Box>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
         
         {/* 底部版权区域 */}
         <Box sx={{ 
