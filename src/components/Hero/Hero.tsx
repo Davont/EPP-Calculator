@@ -114,7 +114,8 @@ const Hero: React.FC = () => {
               fontWeight: 400,
               mb: 4,
               maxWidth: '650px',
-              mx: {xs: 'auto', md: 0}
+              mx: {xs: 'auto', md: 0},
+              display: {xs: 'none', sm: 'block'}
             }}
           >
             Use Lendica PayLater to capture vendor discounts while optimizing your cash flow. Calculate your potential savings instantly.
