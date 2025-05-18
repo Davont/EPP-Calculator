@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import AescapeSlider from './Slider';
+import AescapeSlider from '../Slider/Slider';
 
-interface SliderDemoProps {
+interface InputSliderProps {
   title?: string;
   defaultValue?: number;
   min?: number;
@@ -12,7 +12,7 @@ interface SliderDemoProps {
   displayValue?: string;
 }
 
-const SliderDemo: React.FC<SliderDemoProps> = ({
+const InputSlider: React.FC<InputSliderProps> = ({
   title = "Select the number of Aescape massage tables you'll need",
   defaultValue = 1,
   min = 1,
@@ -39,4 +39,4 @@ const SliderDemo: React.FC<SliderDemoProps> = ({
   );
 };
 
-export default SliderDemo; 
+export default InputSlider; 

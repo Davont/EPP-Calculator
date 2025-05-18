@@ -2,7 +2,7 @@
 .calculator-area {
   background-color: #f8f8f5;
   width: 100%;
-  padding: 40px 20px 60px;
+  padding: 40px 20px 0;
   border-top: 1px solid #eaeaea;
 }
 

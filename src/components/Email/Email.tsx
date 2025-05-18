@@ -1,20 +1,109 @@
-import React, { useState } from 'react';
-import { Box, Typography, TextField, Button } from '@mui/material';
+import React, { useState, useRef } from 'react';
+import { Box, Typography, TextField, Button, Snackbar, Alert } from '@mui/material';
+import ReCAPTCHA from 'react-google-recaptcha';
+
+// 模拟发送邮件的API调用
+const sendSummaryEmail = async (email: string, captchaToken: string) => {
+  // 实际应用中这里应该是一个真实的API调用
+  console.log('发送邮件摘要给:', email, '验证码:', captchaToken);
+  
+  // 模拟API响应
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true });
+    }, 1000);
+  });
+};
 
 const Email: React.FC = () => {
   const [email, setEmail] = useState<string>('');
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>('');
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+  
+  // reCAPTCHA引用
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  
+  // 验证邮箱格式
+  const validateEmail = (email: string): boolean => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+  
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 处理提交逻辑
-    console.log('提交的邮箱:', email);
+    
+    // 清除之前的错误
+    setEmailError('');
+    
+    // 验证邮箱格式
+    if (!validateEmail(email)) {
+      setEmailError('Please enter a valid email address');
+      return;
+    }
+    
+    // 获取reCAPTCHA令牌
+    if (!recaptchaRef.current) {
+      setSnackbarMessage('reCAPTCHA verification failed, please try again later');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
+    }
+    
+    try {
+      setIsSubmitting(true);
+      
+      // 执行reCAPTCHA验证
+      const token = await recaptchaRef.current.executeAsync();
+      
+      if (!token) {
+        throw new Error('Verification failed');
+      }
+      
+      // 发送邮件摘要
+      await sendSummaryEmail(email, token);
+      
+      // 重置reCAPTCHA
+      recaptchaRef.current.reset();
+      
+      // 显示成功消息
+      setSnackbarMessage('Summary has been sent to your email!');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
+      
+      // 清空邮箱输入
+      setEmail('');
+      
+    } catch (error) {
+      console.error('Submission failed:', error);
+      setSnackbarMessage('Sending failed, please try again later');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   return (
     <Box>
+      {/* reCAPTCHA (隐藏但有效) */}
+      <div style={{ display: 'none' }}>
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // 这是一个测试密钥，实际应用需要使用真实密钥
+          size="invisible"
+        />
+      </div>
+      
       {/* 顶部邮件订阅部分 */}
       <Box sx={{ 
-        backgroundColor: '#f0ece3', 
+        backgroundColor: '#EAF5FF', 
         padding: {xs: '30px 20px', md: '30px 40px'},
         borderRadius: '16px',
         display: 'flex',
@@ -35,7 +124,7 @@ const Email: React.FC = () => {
             flex: {xs: '1 1 100%', md: '0 0 auto'}
           }}
         >
-          Get your results sent to your inbox
+          Get your summary PDF sent to your inbox
         </Typography>
 
         <Box sx={{ 
@@ -49,6 +138,8 @@ const Email: React.FC = () => {
             placeholder="Enter your email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            error={!!emailError}
+            helperText={emailError}
             InputProps={{
               sx: { 
                 backgroundColor: '#ffffff', 
@@ -68,13 +159,18 @@ const Email: React.FC = () => {
                   borderBottomRightRadius: 0,
                 },
               },
+              '& .MuiFormHelperText-root': {
+                marginLeft: '20px',
+                marginTop: '4px'
+              }
             }}
+            disabled={isSubmitting}
           />
           <Button
             type="submit"
             variant="contained"
             sx={{
-              backgroundColor: '#000000',
+              backgroundColor: '#0052CC',
               borderRadius: '9999px',
               height: '50px',
               marginLeft: '-36px',
@@ -83,19 +179,25 @@ const Email: React.FC = () => {
               textTransform: 'none',
               fontSize: '16px',
               fontWeight: 500,
+              whiteSpace: 'nowrap',
               '&:hover': {
-                backgroundColor: '#333333',
+                backgroundColor: '#003D99',
+              },
+              '&.Mui-disabled': {
+                backgroundColor: '#83A9E0',
+                color: 'white'
               }
             }}
+            disabled={isSubmitting}
           >
-            Submit
+            {isSubmitting ? 'Sending...' : 'Send Summary'}
           </Button>
         </Box>
       </Box>
 
-      {/* 底部绿色ROI计算器部分 */}
+      {/* 底部蓝色计算器营销部分 */}
       <Box sx={{ 
-        backgroundColor: '#174733', 
+        backgroundColor: '#0052CC', 
         padding: {xs: '40px 20px', md: '50px 40px'},
         marginTop: '0px',
         textAlign: 'center',
@@ -112,7 +214,7 @@ const Email: React.FC = () => {
             marginBottom: '16px'
           }}
         >
-          ROI calculator
+          Boost Your Cash Flow
         </Typography>
         
         <Typography 
@@ -125,7 +227,7 @@ const Email: React.FC = () => {
             marginRight: 'auto'
           }}
         >
-          Unlock competitive pricing and ROI with Aescape.
+          Lendica PayLater lets you capture early-payment discounts while extending your payment terms – the best of both worlds.
         </Typography>
         
         <Box sx={{ 
@@ -140,23 +242,24 @@ const Email: React.FC = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: '#ffffff',
+              backgroundColor: '#00C389',
               borderRadius: '9999px',
               padding: '12px 24px',
-              color: '#000000',
+              color: '#ffffff',
               textTransform: 'none',
               fontSize: '16px',
               fontWeight: 500,
               boxShadow: 'none',
               flex: {xs: '1', sm: '0 1 auto'},
               minWidth: '180px',
+              whiteSpace: 'nowrap',
               '&:hover': {
-                backgroundColor: '#f0f0f0',
+                backgroundColor: '#00A272',
                 boxShadow: 'none',
               }
             }}
           >
-            Join waitlist
+            Start Apply
           </Button>
           
           <Button
@@ -172,16 +275,33 @@ const Email: React.FC = () => {
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
               flex: {xs: '1', sm: '0 1 auto'},
               minWidth: '180px',
+              whiteSpace: 'nowrap',
               '&:hover': {
                 borderColor: 'rgba(255, 255, 255, 0.5)',
                 backgroundColor: 'rgba(255, 255, 255, 0.2)',
               }
             }}
           >
-            Contact us
+            Talk to an Expert
           </Button>
         </Box>
       </Box>
+      
+      {/* 成功/错误提示 */}
+      <Snackbar 
+        open={snackbarOpen} 
+        autoHideDuration={6000} 
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={handleSnackbarClose} 
+          severity={snackbarSeverity} 
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

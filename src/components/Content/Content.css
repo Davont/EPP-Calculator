@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-top: 40px; /* 减小的默认内边距 */
 }
 
 .content-container {
@@ -30,6 +31,10 @@
 /* 媒体查询断点 */
 /* 600px 以上 - 小型设备 */
 @media (min-width: 600px) {
+  .content {
+    padding-top: 45px; /* 调整为600px以上断点的导航栏高度 */
+  }
+  
   .content-container {
     padding: 32px 24px;
     max-width: 600px;
@@ -42,6 +47,10 @@
 
 /* 728px 以上 - 中型设备 */
 @media (min-width: 728px) {
+  .content {
+    padding-top: 50px; /* 调整为728px以上断点的导航栏高度 */
+  }
+  
   .content-container {
     padding: 48px 32px;
     max-width: 728px;

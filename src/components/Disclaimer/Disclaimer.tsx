@@ -30,7 +30,7 @@ const Disclaimer: React.FC = () => {
           color: '#666666',
         }}
       >
-        This calculator is available for illustrative purposes only. It estimates top-line revenue and does not account for the cost of consumables, processing fees, chargebacks, refunds, taxes, and potential other expenses. These costs are variable and subject to change. To obtain a more accurate picture for your business, please reach out to <a href="mailto:partnerships@aescape.com" style={{ color: '#666666', textDecoration: 'none' }}>partnerships@aescape.com</a> for more information.
+        This calculator is available for illustrative purposes only. Results are estimates based on the inputs provided and actual savings may vary. The calculation assumes that vendors will honor early-payment discounts as indicated. Interest rates shown are based on typical rates for businesses with similar revenue profiles and may not reflect the exact rates available to your business. Lendica PayLater approval is subject to creditworthiness and other factors. For detailed information specific to your business situation, please contact <a href="mailto:info@lendica.com" style={{ color: '#0052CC', textDecoration: 'none', fontWeight: 500 }}>info@lendica.com</a> or speak with a Lendica representative.
       </Typography>
     </Box>
   );
