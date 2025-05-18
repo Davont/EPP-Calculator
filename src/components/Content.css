@@ -1,0 +1,77 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.content-container {
+  max-width: 1280px;
+  width: 100%;
+  padding: 24px 16px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.section-text {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* 媒体查询断点 */
+/* 600px 以上 - 小型设备 */
+@media (min-width: 600px) {
+  .content-container {
+    padding: 32px 24px;
+    max-width: 600px;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+/* 728px 以上 - 中型设备 */
+@media (min-width: 728px) {
+  .content-container {
+    padding: 48px 32px;
+    max-width: 728px;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+  }
+}
+
+/* 984px 以上 - 大型设备 */
+@media (min-width: 984px) {
+  .content-container {
+    padding: 64px 48px;
+    max-width: 984px;
+  }
+  
+  .section {
+    margin-bottom: 64px;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* 1160px 以上 - 超大型设备 */
+@media (min-width: 1160px) {
+  .content-container {
+    padding: 80px 64px;
+    max-width: 1160px;
+  }
+} 
